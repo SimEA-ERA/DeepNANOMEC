@@ -54,7 +54,7 @@ def make_plots(labels,data):
   ax[2].set_yscale("log")
   
   
-  fig.savefig("./plot_losses/losses.jpg", bbox_inches='tight',dpi=300)
+  fig.savefig("losses.jpg", bbox_inches='tight',dpi=300)
   plt.close(fig) 
   # plt.show()
 label_list = [r"$\mathcal{L}_{atom}$",r"$\mathcal{L}_{region}$",r"$\mathcal{L}_{atom}+\mathcal{L}_{region}$",
