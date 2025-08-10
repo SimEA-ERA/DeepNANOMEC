@@ -52,7 +52,7 @@ def upsample(entered_input,filters, size, skip_layer, apply_dropout=False, strid
 
 # Create the Convolutional Neural Network (CNN)
 def Generator(): 
-  input1 = tf.keras.layers.Input((128,256,9))  
+  input1 = tf.keras.layers.Input((128,256,10))  
   output1 = downsample(input1, 64, 3)
   output2 = downsample(output1, 128, 3)
   output3 = downsample(output2, 256, 3)  
@@ -69,9 +69,6 @@ def Generator():
 
   model = tf.keras.models.Model(input1,out)
   return model
-
-
-
 
 
 
@@ -805,7 +802,7 @@ def plot_distribution(tar,pred,interval,labels,path):
       plt.savefig(path+save+'.png', bbox_inches='tight',dpi=300)
       plt.close()
 
-def model_evaluation(model,test_input,test_target,epoch,volume,path,intervals_list,r):
+def model_evaluation(model,test_input,test_target,epoch,volume,path,r):
     
     if epoch<10:
      checkpoint_path = "./tmp/model-000"+ str(epoch)+ ".h5"
@@ -870,9 +867,9 @@ def model_evaluation(model,test_input,test_target,epoch,volume,path,intervals_li
 
 
     
-    V_int = (4./3.)*np.pi*(25.**3 - 19.5**3)
+    V_int = (4./3.)*np.pi*(25.5**3 - 19.5**3)
     V_np = (4./3.)*np.pi*(19.5**3)
-    V_bulk = r**3 - (4./3.)*np.pi*(25.**3)
+    V_bulk = r**3 - (4./3.)*np.pi*(25.5**3)
     V_box = r**3
     total_time = 0
     for i in range(n_batches):
@@ -905,9 +902,9 @@ def model_evaluation(model,test_input,test_target,epoch,volume,path,intervals_li
         pred_global_e_yz_list.append(pred_global_e_yz.numpy())
         tar_global_e_yz_list.append(global_e_yz.numpy())
         
-        ind_np = tf.where(tf.equal(test_input[i,:,:,-5],1))
-        ind_intf = tf.where(tf.equal(test_input[i,:,:,-4],1))
-        ind_bulk = tf.where(tf.equal(test_input[i,:,:,-3],1))
+        ind_np = tf.where(tf.equal(test_input[i,:,:,-7],1))
+        ind_intf = tf.where(tf.equal(test_input[i,:,:,-6],1))
+        ind_bulk = tf.where(tf.equal(test_input[i,:,:,-5],1))
         
         
         s_x_bulk_pred = tf.reduce_sum(tf.gather_nd(pred_s_x,ind_bulk)).numpy()/(V_bulk*10000)
@@ -1017,61 +1014,12 @@ def model_evaluation(model,test_input,test_target,epoch,volume,path,intervals_li
 
 
 
-
-
-
-v1_int_list = [-0.122815,0.773552,-0.150335,0.102609,-9686070.,11525500]
-v2_int_list = [-0.118117,0.840645,-0.155665,0.085916,-10585700.,10702500]
-# v3_int_list = [-0.153601,0.466508,-0.12719,0.091762,-7382320.0,9037000.0]
-v4_int_list = [-0.115729,0.467162,-0.111824,0.094069,-9922250.0,8860930.0]
-v5_int_list = [-0.111688, 0.423639,-0.107095,0.061978,-6757250.0,7242390.0]
-
-
-v2 = 12.7
-v1 = 16.1
-# v3 = 1.9
-v4 = 4.5
 v5 = 7.6
-
-r2 = 58
-r1 = 52
-r4 = 84
 r5 = 69
 
 
 epoch_list = [1500]
 for i in epoch_list:
- with open(PATH+'/test_target_1.pkl','rb') as f:
-    test_target_1 = pickle.load(f)
-    print(test_target_1.shape)
-
-
- with open(PATH+'/test_input_1.pkl','rb') as f:
-    test_input_1 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
-    print(test_input_1.shape) 
-
-
-
- with open(PATH+'/test_target_2.pkl','rb') as f:
-    test_target_2 = pickle.load(f)
-    print(test_target_2.shape)
-
-
- with open(PATH+'/test_input_2.pkl','rb') as f:
-    test_input_2 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]    
-    print(test_input_2.shape) 
-    
-
-
- with open(PATH+'/test_target_4.pkl','rb') as f:
-    test_target_4 = pickle.load(f)
-    print(test_target_4.shape)
-
-
- with open(PATH+'/test_input_4.pkl','rb') as f:
-    test_input_4 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
-    print(test_input_4.shape) 
-
 
  with open(PATH+'/test_target_5.pkl','rb') as f:
     test_target_5 = pickle.load(f)
@@ -1079,26 +1027,13 @@ for i in epoch_list:
 
 
  with open(PATH+'/test_input_5.pkl','rb') as f:
-    test_input_5 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+    test_input_5 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
     print(test_input_5.shape) 
+
  epoch = i
- PATH_2 = "./plots_12.7_"+str(i)+"/"
- PATH_1 = "./plots_16.1_"+str(i)+"/"
- PATH_4 = "./plots_4.5_"+str(i)+"/"
  PATH_5 = "./plots_7.6_"+str(i)+"/"
  PATH_7 = "./plots_"+str(i)+"/"
 
- data_1,labels_1 = model_evaluation(model,test_input_1,test_target_1,epoch,v1,PATH_1,v1_int_list,r1)   
- data_2,labels_2 = model_evaluation(model,test_input_2,test_target_2,epoch,v2,PATH_2,v2_int_list,r2)
- data_4,labels_4 = model_evaluation(model,test_input_4,test_target_4,epoch,v4,PATH_4,v4_int_list,r4)
- data_5,labels_5 = model_evaluation(model,test_input_5,test_target_5,epoch,v5,PATH_5,v5_int_list,r5)
- 
- plot_multi(data_1, data_2, data_4, labels_1, labels_2, labels_4, PATH_7)
- plot_curves_5(data_1,labels_1, PATH_7)
- plot_curves_5(data_2,labels_2, PATH_7)
- plot_curves_5(data_4,labels_4, PATH_7)
+ data_5,labels_5 = model_evaluation(model,test_input_5,test_target_5,epoch,v5,PATH_5,r5)
  plot_curves_5(data_5,labels_5, PATH_7)
- plot_multi_scatters(data_1, labels_1, PATH_7)
- plot_multi_scatters(data_2, labels_2, PATH_7)
- plot_multi_scatters(data_4, labels_4, PATH_7)
  plot_multi_scatters(data_5, labels_5, PATH_7)

@@ -24,7 +24,7 @@ with open(PATH+'/train_target_1.pkl','rb') as f:
 
 
 with open(PATH+'/train_input_1.pkl','rb') as f:
-    train_input_1 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+    train_input_1 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
     print(train_input_1.shape)     
 
 with open(PATH+'/val_target_1.pkl','rb') as f:
@@ -33,7 +33,7 @@ with open(PATH+'/val_target_1.pkl','rb') as f:
 
 
 with open(PATH+'/val_input_1.pkl','rb') as f:
-    val_input_1 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+    val_input_1 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
     print(val_input_1.shape)    
 
 
@@ -73,7 +73,7 @@ with open(PATH+'/train_target_2.pkl','rb') as f:
 
 
 with open(PATH+'/train_input_2.pkl','rb') as f:
-    train_input_2 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+    train_input_2 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
     print(train_input_2.shape)     
 
 with open(PATH+'/val_target_2.pkl','rb') as f:
@@ -82,7 +82,7 @@ with open(PATH+'/val_target_2.pkl','rb') as f:
 
 
 with open(PATH+'/val_input_2.pkl','rb') as f:
-    val_input_2 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+    val_input_2 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
     print(val_input_2.shape)    
 
 
@@ -117,7 +117,7 @@ with open(PATH+'/train_target_4.pkl','rb') as f:
 
 
 with open(PATH+'/train_input_4.pkl','rb') as f:
-     train_input_4 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+     train_input_4 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
      print(train_input_4.shape)     
 
 with open(PATH+'/val_target_4.pkl','rb') as f:
@@ -126,7 +126,7 @@ with open(PATH+'/val_target_4.pkl','rb') as f:
 
 
 with open(PATH+'/val_input_4.pkl','rb') as f:
-     val_input_4 = pickle.load(f)[:,:,:,[0,1,2,3,6,7,8,9,10]]
+     val_input_4 = pickle.load(f)[:,:,:,[0,1,2,6,7,8,9,10,11,12]]
      print(val_input_4.shape)    
 
 
@@ -160,7 +160,7 @@ val_input = np.concatenate((val_input_1,val_input_2,val_input_4),axis=0)
 val_target = np.concatenate((val_target_1,val_target_2,val_target_4),axis=0)
 
 
-train_input = train_input.reshape((-1,100,128,256,9))
+train_input = train_input.reshape((-1,100,128,256,10))
 train_target = train_target.reshape((-1,100,128,256,3))
 
 
@@ -169,7 +169,7 @@ np.random.shuffle(indx)
 train_input = train_input[indx[:]]
 train_target = train_target[indx[:]]
 
-train_input = train_input.reshape((train_input.shape[0]*100,128,256,9))
+train_input = train_input.reshape((train_input.shape[0]*100,128,256,10))
 train_target = train_target.reshape((train_target.shape[0]*100,128,256,3))
 
 
@@ -197,7 +197,7 @@ def upsample(entered_input,filters, size, skip_layer, apply_dropout=False, strid
 
 # Create the Convolutional Neural Network (CNN)
 def Generator(): 
-  input1 = tf.keras.layers.Input((128,256,9))  
+  input1 = tf.keras.layers.Input((128,256,10))  
   output1 = downsample(input1, 64, 3)
   output2 = downsample(output1, 128, 3)
   output3 = downsample(output2, 256, 3)  
@@ -245,9 +245,9 @@ def compute_region_loss(pred,tar,ind,y_pred):
 
 
 def region_loss(x,y_pred,y_true):
-    ind_np = tf.where(tf.equal(x[:,:,:,-5],1))
-    ind_intp = tf.where(tf.equal(x[:,:,:,-4],1))
-    ind_bulk = tf.where(tf.equal(x[:,:,:,-3],1))
+    ind_np = tf.where(tf.equal(x[:,:,:,-7],1))
+    ind_intp = tf.where(tf.equal(x[:,:,:,-6],1))
+    ind_bulk = tf.where(tf.equal(x[:,:,:,-5],1))
         
     pred_np_ex = tf.gather_nd(y_pred[:,:,:,0],ind_np)
     tar_np_ex = tf.gather_nd(y_true[:,:,:,0],ind_np)
