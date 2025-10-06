@@ -1,6 +1,6 @@
 # DeepNANOMEC
 ![alt text](./Method_implementation/figure_1.jpg)
-Here we present a physics-informed deep learning approach for predicting the mechanical properties of
+Here we present a physics-aware deep learning approach for predicting the mechanical properties of
 polymeric nanostructured materials.  
 The method consists of three parts:
 - Data-based hierarchical modeling: Which involves atomistic simulations and continuum models to compute distribution of stress and strain fields
@@ -11,5 +11,7 @@ This directory contains files to perform:
 - The training of the machine learning model.
 - The testing of the model on unknown data (test-set).
 - The visualization of the results.
+## Data
+The data utilized for the training and testing of the deep neural network can be found in a Zenodo directory (10.5281/zenodo.17273740)
  
 
