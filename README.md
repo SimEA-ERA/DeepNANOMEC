@@ -12,6 +12,6 @@ This directory contains files to perform:
 - The testing of the model on unknown data (test-set).
 - The visualization of the results.
 ## Data
-The data utilized for the training and testing of the deep neural network can be found in a Zenodo directory (10.5281/zenodo.17273740)
+The data utilized for the training and testing of the deep neural network can be found in a Zenodo directory (https://doi.org/10.5281/zenodo.17273740)
  
 
